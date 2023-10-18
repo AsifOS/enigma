@@ -1,0 +1,16 @@
+
+
+SRC_DIR := src/arch/i386/boot
+OBJ_DIR := bin/build/interm
+LINKER_DIR := src/linker/i386/default.ld
+
+SRC_FILES_ASM := $(wildcard $(SRC_DIR)/*.asm)
+SRC_FILES_C   := $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES     := $(patsubst %.asm, $(OBJ_DIR)/%.asm.obj, $(notdir $(SRC_FILES_ASM))) \
+				 $(patsubst %.c, $(OBJ_DIR)/%.asm.obj, $(notdir $(SRC_FILES_C)))
+
+# TODO : Add a configuration system to check for boot type.
+
+all: 
+	nasm -f elf32 multiboot2/header.asm -o header.elf
+	nasm -f elf32 boot.asm -o boot.elf

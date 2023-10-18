@@ -1,0 +1,36 @@
+default_target : build
+
+# The current directory the build system is at.
+
+Fi_CURRENT_DIR := .
+
+# Default architecture. This variable is expected to be filled by the 
+# upper-order Makefile.
+
+Fi_ARCH := i386
+
+# Integrity check.
+
+$(info Directory 'impl/arch/' integrity check...)
+
+# Check whether the target architecture is supported.
+
+_VALID_ARCHS := i386        # Valid target architectures
+
+ifeq (0, $(words $(filter $(Fi_ARCH),$(_VALID_ARCHS))))
+    $(error Unsupported architecture : $(ARCH))
+endif
+
+$(info Integral!)
+
+$(info Compiling for architecture : $(Fi_ARCH))
+
+# Now build the relevant arch.
+
+.PHONY  :
+.SILENT :
+
+build : 
+	$(MAKE) -sf $(Fi_CURRENT_DIR)/$(Fi_ARCH)/Makefile.slave_2 \
+	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/$(Fi_ARCH) \
+	Fi_PARENT_CONFIG=$(Fi_CURRENT_DIR)/config

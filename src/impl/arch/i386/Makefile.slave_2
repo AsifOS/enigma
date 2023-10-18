@@ -1,0 +1,16 @@
+default_target : build
+
+# The parent config file. Will be filled by the upper-order Makefile.
+
+Fi_PARENT_CONFIG := 
+
+# The current directory.
+
+Fi_CURRENT_DIR := .
+
+# Now build arch. specific modules.
+
+build : 
+	$(MAKE) -sf $(Fi_CURRENT_DIR)/boot/Makefile.slave_3 \
+	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/boot \
+	Fi_PARENT_CONFIG=$(Fi_PARENT_CONFIG)
