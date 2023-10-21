@@ -1,0 +1,16 @@
+default_target : rock_and_roll
+
+# Will be filled by upper-order Makefile.
+
+Fi_CURRENT_DIR = .
+Fi_VERSION     = .
+
+.PHONY  :
+.SILENT : 
+
+rock_and_roll : message
+	$(MAKE) -f $(Fi_CURRENT_DIR)/arch/Makefile.2 \
+	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/arch
+
+message : 
+	echo -e "Building ENIGMA ($(Fi_VERSION))\n"

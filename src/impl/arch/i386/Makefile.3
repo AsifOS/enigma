@@ -1,4 +1,4 @@
-default_target : build
+default_target : rock_and_roll
 
 # The parent config file. Will be filled by the upper-order Makefile.
 
@@ -10,7 +10,13 @@ Fi_CURRENT_DIR := .
 
 # Now build arch. specific modules.
 
-build : 
-	$(MAKE) -sf $(Fi_CURRENT_DIR)/boot/Makefile.slave_3 \
+.PHONY  :
+.SILENT : 
+
+rock_and_roll : message
+	$(MAKE) -sf $(Fi_CURRENT_DIR)/boot/Makefile.4 \
 	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/boot \
 	Fi_PARENT_CONFIG=$(Fi_PARENT_CONFIG)
+
+message : 
+	echo "Building : arch/i386/"

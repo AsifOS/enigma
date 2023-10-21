@@ -1,0 +1,54 @@
+# This is a prototype file which defines the directory structure, compilers
+# and other build related variables. This file will be used to generate a 
+# build config file includable by all the slave Makefiles created by the 
+# master Makefile.
+
+# The include dirctory for C translations.
+
+Bu_INCLUDE = include/
+
+# The directory we are going to put all our build files into.
+
+Bu_BUILD_DIR = build
+
+# This will be used to create the directory structure to dump the builds and 
+# will be used only by the master Makefile.
+
+Bu_CREATE = $(Bu_BUILD_DIR)/{target/$(ARCH)/,bin/{deps,intm}}
+
+# Directory to put all the header file dependencies.
+
+Bu_DEPS_DIR = $(Bu_BUILD_DIR)/bin/deps
+
+# Directory to put compiled object files.
+
+Bu_OBJ_DIR = $(Bu_BUILD_DIR)/bin/intm
+
+# The output directory to output the final kernel binary.
+
+Bu_OUTPUT_DIR = $(Bu_BUILD_DIR)/bin
+
+# Prefered Assembler.
+
+# Please change the assembler accordingly for the following architectures : 
+#     i386 -> nasm
+
+Bu_ASM = nasm
+
+# ASM build flags.
+
+# Please change the build flags accordingly (without quotes) : 
+#     i386 -> '-f elf32'
+
+Bu_ASM_FLAGS = -f elf32
+
+# Prefered C compiler.
+
+Bu_CC = _none         # Will be filled
+
+# Prefered linker.
+
+# Please change the linker accordingly :
+#     i386 -> i386-elf-ld
+
+Bu_LD = i386-elf-ld

@@ -1,7 +1,11 @@
+# Kenrel version (MAJOR:MINOR:REVISION)
+
+VERSION = 0.1.0
+
 # Define the target architecture.
 #     i386 -> Intel Architecture 32 (i80_86)
 
-ARCH := i386
+ARCH = i386
 
 # Use one of the following linker.
 #     MULTIBOOT2 -> Multiboot2 specific linker. Use this if you wish to do 
@@ -9,7 +13,3 @@ ARCH := i386
 #     DEFAULT    -> The default linker.
 
 LINKER = MULTIBOOT2
-
-# Prefered assembler is NASM.
-
-ASM = nasm

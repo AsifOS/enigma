@@ -1,4 +1,4 @@
-default_target : build
+default_target : rock_and_roll
 
 # The current directory the build system is at.
 
@@ -11,7 +11,7 @@ Fi_ARCH := i386
 
 # Integrity check.
 
-$(info Directory 'impl/arch/' integrity check...)
+$(info Directory 'arch/' integrity check...)
 
 # Check whether the target architecture is supported.
 
@@ -22,15 +22,17 @@ ifeq (0, $(words $(filter $(Fi_ARCH),$(_VALID_ARCHS))))
 endif
 
 $(info Integral!)
-
 $(info Compiling for architecture : $(Fi_ARCH))
 
 # Now build the relevant arch.
 
-.PHONY  :
-.SILENT :
+.PHONY  : 
+.SILENT : 
 
-build : 
-	$(MAKE) -sf $(Fi_CURRENT_DIR)/$(Fi_ARCH)/Makefile.slave_2 \
+rock_and_roll : message
+	$(MAKE) -sf $(Fi_CURRENT_DIR)/$(Fi_ARCH)/Makefile.3 \
 	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/$(Fi_ARCH) \
 	Fi_PARENT_CONFIG=$(Fi_CURRENT_DIR)/config
+
+message :
+	echo -e "\nBuilding : arch/"
