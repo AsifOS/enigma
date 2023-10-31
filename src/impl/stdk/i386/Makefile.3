@@ -20,13 +20,13 @@ rock_and_roll: message $(OBJ_FILES_ASM) $(OBJ_FILES_C)
 
 # Build the ASM translations.
 
-$(Bu_OBJ_DIR)/%.asm.obj : $(SRC_DIR)/%.asm
+$(Bu_OBJ_DIR)/%.asm.obj: $(SRC_DIR)/%.asm
 	$(Bu_ASM_BUILD_PRINT)
 	$(Bu_ASM_BUILD)
 
 # Build the C translations.
 
-$(Bu_OBJ_DIR)/%.c.obj : $(SRC_DIR)/%.c
+$(Bu_OBJ_DIR)/%.c.obj: $(SRC_DIR)/%.c
 	$(Bu_C_BUILD_PRINT)
 	$(Bu_C_BUILD)
 
