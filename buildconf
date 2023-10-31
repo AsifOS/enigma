@@ -5,7 +5,7 @@
 
 # The include dirctory for C translations.
 
-Bu_INCLUDE = include/
+Bu_INCLUDE = src/include/
 
 # The directory we are going to put all our build files into.
 
@@ -30,25 +30,45 @@ Bu_OUTPUT_DIR = $(Bu_BUILD_DIR)/bin
 
 # Prefered Assembler.
 
-# Please change the assembler accordingly for the following architectures : 
+# Please change the assembler accordingly for the following architectures: 
 #     i386 -> nasm
 
 Bu_ASM = nasm
 
 # ASM build flags.
 
-# Please change the build flags accordingly (without quotes) : 
+# Please change the build flags accordingly (without quotes): 
 #     i386 -> '-f elf32'
 
 Bu_ASM_FLAGS = -f elf32
 
 # Prefered C compiler.
 
-Bu_CC = _none         # Will be filled
+# Please change the build flags accordingly for the following architectures: 
+#     i386 -> i386-elf-gcc
+
+Bu_CC = i386-elf-gcc
+
+# GCC build flags (Compile time only).
+
+# Please change the build flags accordingly (without quotes):
+#     i386 -> '-mabi=sysv -ffreestanding -Wunused -Werror -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs'
+
+Bu_CC_FLAGS = -D__enigma_i386 -mabi=sysv -ffreestanding -Wunused -Werror -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -MMD -MF
 
 # Prefered linker.
 
-# Please change the linker accordingly :
+# Please change the linker accordingly:
 #     i386 -> i386-elf-ld
 
 Bu_LD = i386-elf-ld
+
+# Build abstractions.
+
+Bu_ASM_BUILD = $(Bu_ASM) $(Bu_ASM_FLAGS) $< -o $@
+Bu_C_BUILD   = $(Bu_CC) -c -I$(Bu_INCLUDE) -I$(Fi_LOCAL_INCLUDE) $(Bu_CC_FLAGS) $(patsubst $(Bu_OBJ_DIR)/%.c.obj, $(Bu_DEPS_DIR)/%.c.dep, $@) $< -o $@
+
+# Printing adds verbosity, which helps.
+
+Bu_ASM_BUILD_PRINT = echo "Assembling ASM translation '$(notdir $<)', generating object '$@'..."
+Bu_C_BUILD_PRINT   = echo "Compiling C translation '$(notdir $<)', generating object '$@'..."

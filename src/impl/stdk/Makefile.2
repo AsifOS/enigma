@@ -1,0 +1,13 @@
+default_target: rock_and_roll
+
+# Build the relevant arch.
+
+.PHONY : 
+.SILENT: 
+
+rock_and_roll : message
+	$(MAKE) -sf $(Fi_CURRENT_DIR)/$(Fi_ARCH)/Makefile.3 \
+	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/$(Fi_ARCH)
+
+message:
+	echo -e "\nBuilding 'stdk/'"

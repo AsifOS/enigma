@@ -1,13 +1,4 @@
-default_target : rock_and_roll
-
-# The current directory the build system is at.
-
-Fi_CURRENT_DIR := .
-
-# Default architecture. This variable is expected to be filled by the 
-# upper-order Makefile.
-
-Fi_ARCH := i386
+default_target: rock_and_roll
 
 # Integrity check.
 
@@ -26,13 +17,12 @@ $(info Compiling for architecture : $(Fi_ARCH))
 
 # Now build the relevant arch.
 
-.PHONY  : 
-.SILENT : 
+.PHONY : 
+.SILENT: 
 
-rock_and_roll : message
+rock_and_roll: message
 	$(MAKE) -sf $(Fi_CURRENT_DIR)/$(Fi_ARCH)/Makefile.3 \
-	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/$(Fi_ARCH) \
-	Fi_PARENT_CONFIG=$(Fi_CURRENT_DIR)/config
+	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/$(Fi_ARCH)
 
 message :
-	echo -e "\nBuilding : arch/"
+	echo -e "\nBuilding 'arch/'"

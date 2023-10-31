@@ -7,9 +7,6 @@ VERSION = 0.1.0
 
 ARCH = i386
 
-# Use one of the following linker.
-#     MULTIBOOT2 -> Multiboot2 specific linker. Use this if you wish to do 
-#                   Multiboot2 compliant boot.
-#     DEFAULT    -> The default linker.
+# Multiboot2 compliant boot (yes/nope).
 
-LINKER = MULTIBOOT2
+MULTIBOOT2_BOOT = yes

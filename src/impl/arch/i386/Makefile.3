@@ -1,22 +1,18 @@
-default_target : rock_and_roll
+default_target: rock_and_roll
 
-# The parent config file. Will be filled by the upper-order Makefile.
+# Local include directory.
 
-Fi_PARENT_CONFIG := 
-
-# The current directory.
-
-Fi_CURRENT_DIR := .
+LOCAL_INCLUDE := $(Fi_CURRENT_DIR)/include/
 
 # Now build arch. specific modules.
 
-.PHONY  :
-.SILENT : 
+.PHONY :
+.SILENT: 
 
-rock_and_roll : message
+rock_and_roll: message
 	$(MAKE) -sf $(Fi_CURRENT_DIR)/boot/Makefile.4 \
 	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/boot \
-	Fi_PARENT_CONFIG=$(Fi_PARENT_CONFIG)
+	Fi_LOCAL_INCLUDE=$(LOCAL_INCLUDE)
 
-message : 
-	echo "Building : arch/i386/"
+message: 
+	echo "Building 'arch/i386/'"

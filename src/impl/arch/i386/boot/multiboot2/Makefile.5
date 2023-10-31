@@ -1,23 +1,5 @@
 default_target : rock_and_roll
 
-# Fillable.
-
-Fi_CURRENT_DIR = .
-
-# Integrity check.
-
-$(info Directory 'arch/i386/boot/multiboot2/' integrity check...)
-
-# Check for Multiboot2 master config (LINKER = MULTIBOOT2).
-
-include config
-
-ifneq ($(LINKER), MULTIBOOT2)
-    $(error Multiboot2 is disabled, config files are incoherent!)
-endif
-
-$(info Integral!)
-
 include buildconf
 
 SRC_DIR := $(Fi_CURRENT_DIR)
@@ -29,8 +11,8 @@ OBJ_FILES_ASM := $(patsubst $(SRC_DIR)/%.asm, $(Bu_OBJ_DIR)/%.asm.obj, \
 rock_and_roll : message $(OBJ_FILES_ASM)
 
 $(Bu_OBJ_DIR)/%.asm.obj : $(SRC_DIR)/%.asm
-	echo "Assembling ASM translation '$(notdir $<)', generating object '$@'..."
-	$(Bu_ASM) $(Bu_ASM_FLAGS) $< -o $@
+	$(Bu_ASM_BUILD_PRINT)
+	$(Bu_ASM_BUILD)
 
 message : 
-	echo -e "\nBuilding : arch/i386/boot/multiboot2/"
+	echo -e "\nBuilding 'arch/i386/boot/multiboot2/'"

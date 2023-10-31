@@ -2,13 +2,13 @@
  * Linkerscript if using Multiboot2 specification for boot.
  */
 
-/** The entry point to the kernel. */
+/** Insignificant, as we are emitting raw binary. */
 
-ENTRY(kinit)
+ENTRY(_boot)
 
 /** Output format. */
 
-OUTPUT_FORMAT(elf32-i386)
+OUTPUT_FORMAT(binary)
 
 /** Sections. */
 
@@ -18,11 +18,10 @@ SECTIONS {
     
     . = 1M;
 
-    /** .boot section where we keep our boot specific codes, in our case
-        the multiboot2 header. */
+    /* .boot section where we keep our boot specific codes such as 
+       Multiboot header. */
 
     .boot : ALIGN(4K) {
-        *(.multiboot)
         *(.boot)
     }
 

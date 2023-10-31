@@ -11,32 +11,25 @@ CURRENT_DIR := .
 		
 LINKER_DIR    := $(CURRENT_DIR)/src/impl/linker/$(ARCH)
 LINKER_SCRIPT := $(LINKER_DIR)/default.ld
-KERNEL_EXT    := bin
-
-# Multiboot2 linker.
-
-ifeq ($(LINKER), MULTIBOOT2)
-	LINKER_SCRIPT := $(LINKER_DIR)/multiboot2.ld
-	KERNEL_EXT    := elf
-endif
+KERNEL_EXT    := .bin
 
 .PHONY  :
 .SILENT : 
 
 rock_and_roll : message build_dir start_job
 	$(Bu_LD) -n -T $(LINKER_SCRIPT) $(wildcard $(Bu_OBJ_DIR)/*.asm.obj) \
-	$(wildcard $(Bu_OBJ_DIR)/*.c.obj) -o $(Bu_OUTPUT_DIR)/kernel.$(KERNEL_EXT)
+	$(wildcard $(Bu_OBJ_DIR)/*.c.obj) -o $(Bu_OUTPUT_DIR)/kernel$(KERNEL_EXT)
 
-	echo -e "\nSuccessfully created '$(Bu_OUTPUT_DIR)/kernel.$(KERNEL_EXT)'\n"
+	echo -e "\nSuccessfully created '$(Bu_OUTPUT_DIR)/kernel$(KERNEL_EXT)'\n"
 
 # Create a Multiboot2 compliant boot image (If applicable).
 
-ifeq ($(LINKER), MULTIBOOT2)
+ifeq ($(MULTIBOOT2_BOOT), yes)
 	mkdir -p $(Bu_OUTPUT_DIR)/multiboot2_sysroot/{boot/grub/,AsifOS}
 	cp $(CURRENT_DIR)/misc/multiboot2/grub.cfg \
 	$(Bu_OUTPUT_DIR)/multiboot2_sysroot/boot/grub/
-	cp $(Bu_OUTPUT_DIR)/kernel.elf \
-	$(Bu_OUTPUT_DIR)/multiboot2_sysroot/AsifOS/kernel.elf
+	cp $(Bu_OUTPUT_DIR)/kernel$(KERNEL_EXT) \
+	$(Bu_OUTPUT_DIR)/multiboot2_sysroot/AsifOS/kernel$(KERNEL_EXT)
 
 	grub-mkrescue -o $(Bu_OUTPUT_DIR)/asifos.iso \
 	$(Bu_OUTPUT_DIR)/multiboot2_sysroot
@@ -48,7 +41,8 @@ endif
 
 start_job : 
 	$(MAKE) -sf $(CURRENT_DIR)/src/impl/Makefile.1 \
-	Fi_CURRENT_DIR=$(CURRENT_DIR)/src/impl Fi_VERSION=$(VERSION)
+	Fi_CURRENT_DIR=$(CURRENT_DIR)/src/impl \
+	Fi_VERSION=$(VERSION) Fi_ARCH=$(ARCH)
 
 build_dir : 
 	mkdir -p $(Bu_CREATE)

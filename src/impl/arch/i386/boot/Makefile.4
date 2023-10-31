@@ -1,36 +1,47 @@
-default_target : rock_and_roll
+default_target: rock_and_roll
 
-# The build configuration and the parent config file.
+# The build configuration and the root config file.
 
 include buildconf
-include $(Fi_PARENT_CONFIG)
+include config
 
 SRC_DIR := $(Fi_CURRENT_DIR)
 
 SRC_FILES_ASM := $(wildcard $(SRC_DIR)/*.asm)
+SRC_FILES_C   := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES_ASM := $(patsubst $(SRC_DIR)/%.asm, $(Bu_OBJ_DIR)/%.asm.obj, \
                  $(SRC_FILES_ASM))
+OBJ_FILES_C   := $(patsubst $(SRC_DIR)/%.c, $(Bu_OBJ_DIR)/%.c.obj, \
+                 $(SRC_FILES_C))
 
-.PHONY  :
-.SILENT : 
+.PHONY :
+.SILENT: 
 
-rock_and_roll : message $(OBJ_FILES_ASM) config_specific_build
+rock_and_roll: message $(OBJ_FILES_ASM) $(OBJ_FILES_C) config_specific_build
 
 # Configuration specific builds.
 
-config_specific_build : 
+config_specific_build: 
 # Multiboot2 header.
 
-ifeq ($(CONFIG_MULTIBOOT2_HEADER), yes) 
-	$(MAKE) -f $(Fi_CURRENT_DIR)/multiboot2/Makefile.5 \
+ifeq ($(MULTIBOOT2_BOOT), yes) 
+	$(MAKE) -sf $(Fi_CURRENT_DIR)/multiboot2/Makefile.5 \
 	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/multiboot2
 endif
 
 # Build the ASM translations.
 
-$(Bu_OBJ_DIR)/%.asm.obj : $(SRC_DIR)/%.asm
-	echo "Assembling ASM translation '$(notdir $<)', generating object '$@'..."
-	$(Bu_ASM) $(Bu_ASM_FLAGS) $< -o $@
+$(Bu_OBJ_DIR)/%.asm.obj: $(SRC_DIR)/%.asm
+	$(Bu_ASM_BUILD_PRINT)
+	$(Bu_ASM_BUILD)
 
-message : 
-	echo "Building : arch/i386/boot/"
+$(Bu_OBJ_DIR)/%.c.obj: $(SRC_DIR)/%.c
+	$(Bu_C_BUILD_PRINT)
+	$(Bu_C_BUILD)
+
+message: 
+	echo "Building 'arch/i386/boot/'"
+
+# Include the dependencies.
+
+-include $(patsubst $(Bu_OBJ_DIR)/%.c.obj, $(Bu_DEPS_DIR)/%.c.dep, $(OBJ_FILES_C))
