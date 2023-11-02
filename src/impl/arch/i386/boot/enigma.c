@@ -1,12 +1,12 @@
 #include <enigma/kernel.h>
 #include <ktype.h>
 
-void enigma(u32_t magic, data_t info) {
+void enigma(kinfo_t *info) {
     /* Dispatch to kernel main. */
 
     // main(info);
 
-    info += magic;
+    info += 0;
 
     unsigned short *vid_mem = (unsigned short*) 0xb8000;
 

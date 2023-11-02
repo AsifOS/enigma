@@ -224,7 +224,7 @@ typedef struct __struct_mbi_tag_vbe_t {
 
     mbi_vbe_info_block_t vbe_control_info;
     mbi_vbe_mode_info_block_t vbe_mode_info;
-};
+} mbi_tag_vbe_t;
 
 /* Framebuffer common tag structure. */
 

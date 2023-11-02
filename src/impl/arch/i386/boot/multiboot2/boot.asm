@@ -78,6 +78,7 @@
 
 %define MULTIBOOT_HEADER_TAG_OPTIONAL  1
 
+[EXTERN mb_main:function]
 [EXTERN enigma:function]
 
 [GLOBAL _boot:function]
@@ -180,11 +181,27 @@ _boot:
     push dword 0
     popfd
 
-    ;; Call the C entry point.
+    ;; Call the multiboot C entry point.
 
     push ebx
     push eax
+    call mb_main
+
+    ;; If we get nothing in return from the function call, means we had issue.
+
+    and eax, 0xFFFFFFFF
+    jz _boot.error
+
+    ;; Now call the abstracted boot entry point.
+
+    push eax
     call enigma
+
+    ;; If the call returns which isn't supposed to, indicates we faced 
+    ;; some fatal issue. So, the next instruction will halt the system.
+
+.error: 
+    hlt
 
 [SECTION .bss]
 

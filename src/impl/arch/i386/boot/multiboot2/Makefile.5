@@ -1,18 +1,25 @@
-default_target : rock_and_roll
+default_target: rock_and_roll
 
 include buildconf
 
 SRC_DIR := $(Fi_CURRENT_DIR)
 
 SRC_FILES_ASM := $(wildcard $(SRC_DIR)/*.asm)
+SRC_FILES_C   := $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES_ASM := $(patsubst $(SRC_DIR)/%.asm, $(Bu_OBJ_DIR)/%.asm.obj, \
                  $(SRC_FILES_ASM))
+OBJ_FILES_C   := $(patsubst $(SRC_DIR)/%.c, $(Bu_OBJ_DIR)/%.c.obj, \
+                 $(SRC_FILES_C))
 
-rock_and_roll : message $(OBJ_FILES_ASM)
+rock_and_roll: message $(OBJ_FILES_ASM) $(OBJ_FILES_C)
 
-$(Bu_OBJ_DIR)/%.asm.obj : $(SRC_DIR)/%.asm
+$(Bu_OBJ_DIR)/%.asm.obj: $(SRC_DIR)/%.asm
 	$(Bu_ASM_BUILD_PRINT)
 	$(Bu_ASM_BUILD)
 
-message : 
+$(Bu_OBJ_DIR)/%.c.obj: $(SRC_DIR)/%.c
+	$(Bu_C_BUILD_PRINT)
+	$(Bu_C_BUILD)
+
+message: 
 	echo -e "\nBuilding 'arch/i386/boot/multiboot2/'"
