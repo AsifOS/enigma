@@ -1,8 +1,8 @@
-#ifndef __ENIGMA_CONFIG_H__
-#define __ENIGMA_CONFIG_H__
+#ifndef _ENIGMA_CONFIG_H
+#define _ENIGMA_CONFIG_H
 
 /* The maximum number of memory map kernel can hold. */
 
-#define KERNEL_MAX_MEMMAP    16
+#define ENIGMA_MAX_MMAP    16
 
-#endif    // __ENIGMA_CONFIG_H__
+#endif    // _ENIGMA_CONFIG_H

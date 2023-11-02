@@ -194,7 +194,7 @@ typedef struct __struct_mbi_tag_bootdev_t {
 
 typedef struct __struct_mbi_mmap_entry_t {
     u64_t addr;
-    u64_t length;
+    u64_t len;
     u32_t type;
     u32_t reserved;
 } mbi_mmap_entry_t;

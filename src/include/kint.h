@@ -1,5 +1,5 @@
-#ifndef __ENIGMA_KINT_H__
-#define __ENIGMA_KINT_H__
+#ifndef _ENIGMA_KINT_H
+#define _ENIGMA_KINT_H
 
 #ifdef __enigma_i386
 /* Signed type definitions. */
@@ -17,4 +17,4 @@ typedef unsigned short     u16_t;
 typedef unsigned char      u8_t;
 #endif    // __enigma_$$ARCH$$
 
-#endif    // __ENIGMA_KINT_H__
+#endif    // _ENIGMA_KINT_H

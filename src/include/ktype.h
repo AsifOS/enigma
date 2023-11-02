@@ -1,5 +1,5 @@
-#ifndef ENIGMA_KTYPE_H
-#define ENIGMA_KTYPE_H
+#ifndef _ENIGMA_KTYPE_H
+#define _ENIGMA_KTYPE_H
 
 /* Use this to define RAW data. */
 
@@ -10,4 +10,4 @@ typedef void *data_t;
 #define nullptr    ((void*) 0)
 #define null               (0)
 
-#endif    // ENIGMA_KTYPE_H
+#endif    // _ENIGMA_KTYPE_H

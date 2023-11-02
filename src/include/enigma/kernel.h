@@ -1,5 +1,5 @@
-#ifndef __ENIGMA_H__
-#define __ENIGMA_H__
+#ifndef _ENIGMA_KERNEL_H
+#define _ENIGMA_KERNEL_H
 
 #include <enigma/config.h>
 #include <enigma/memory.h>
@@ -8,8 +8,8 @@
    is invoked. */
 
 typedef struct kinfo_t {
-    kmmap_t memmap[KERNEL_MAX_MEMMAP];
-    u32_t   memmap_size;
+    kmmap_t mmap[ENIGMA_MAX_MMAP];
+    u32_t   mmap_size;
 } kinfo_t;
 
-#endif    // __ENIGMA_H__
+#endif    // _ENIGMA_KERNEL__H

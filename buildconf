@@ -40,7 +40,7 @@ Bu_ASM = nasm
 # Please change the build flags accordingly (without quotes): 
 #     i386 -> '-f elf32'
 
-Bu_ASM_FLAGS = -f elf32
+Bu_ASM_FLAGS = -f elf32 -g
 
 # Prefered C compiler.
 
