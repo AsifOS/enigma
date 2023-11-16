@@ -2,13 +2,13 @@
  * Linkerscript if using Multiboot2 specification for boot.
  */
 
-/** Insignificant, as we are emitting raw binary. */
+/** Entry point to the kernel. */
 
 ENTRY(_boot)
 
 /** Output format. */
 
-OUTPUT_FORMAT(binary)
+OUTPUT_FORMAT(elf32-i386)
 
 /** Sections. */
 

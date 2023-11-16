@@ -7,8 +7,8 @@ VIDEO_MEM equ 0xB8000        ; VGA video memory
 
 ;; This is a very minimalist sub-routine to print error text to the screen 
 ;; at boot time, intended for boot time errors only.
-;; Call using SysV calling convention. Uses the predefined stack by the
-;; bootloader.
+;; 
+;; Call using SysV calling convention.
 
 __boot_err: 
     push ebp

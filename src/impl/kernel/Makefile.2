@@ -1,0 +1,27 @@
+default_target: rock_and_roll
+
+include buildconf
+
+SRC_DIR := $(Fi_CURRENT_DIR)
+
+SRC_FILES_C := $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES_C := $(patsubst $(SRC_DIR)/%.c, $(Bu_OBJ_DIR)/%.c.obj, \
+               $(SRC_FILES_C))
+
+.PHONY : 
+.SILENT: 
+
+# Build the core directory kernel files first and then subdirs.
+
+rock_and_roll: message $(OBJ_FILES_C)
+
+$(Bu_OBJ_DIR)/%.c.obj: $(SRC_DIR)/%.c
+	$(Bu_C_BUILD_PRINT)
+	$(Bu_C_BUILD)
+
+message :
+	echo -e "\nBuilding 'kernel/'"
+
+# Include the dependencies.
+
+-include $(patsubst $(Bu_OBJ_DIR)/%.c.obj, $(Bu_DEPS_DIR)/%.c.dep, $(OBJ_FILES_C))

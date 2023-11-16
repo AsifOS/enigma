@@ -1,9 +1,6 @@
 default_target: rock_and_roll
 
-# The build configuration and the root config file.
-
 include buildconf
-include config
 
 SRC_DIR := $(Fi_CURRENT_DIR)
 
@@ -14,21 +11,7 @@ OBJ_FILES_ASM := $(patsubst $(SRC_DIR)/%.asm, $(Bu_OBJ_DIR)/%.asm.obj, \
 OBJ_FILES_C   := $(patsubst $(SRC_DIR)/%.c, $(Bu_OBJ_DIR)/%.c.obj, \
                  $(SRC_FILES_C))
 
-.PHONY :
-.SILENT: 
-
 rock_and_roll: message $(OBJ_FILES_ASM) $(OBJ_FILES_C)
-# Configuration specific builds.
-
-ifeq ($(MULTIBOOT2_BOOT), yes) 
-	$(MAKE) -sf $(Fi_CURRENT_DIR)/multiboot2/Makefile.5 \
-	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/multiboot2
-
-	$(MAKE) -sf $(Fi_CURRENT_DIR)/gdt/Makefile.5 \
-	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/gdt
-endif
-
-# Build the ASM translations.
 
 $(Bu_OBJ_DIR)/%.asm.obj: $(SRC_DIR)/%.asm
 	$(Bu_ASM_BUILD_PRINT)
@@ -39,8 +22,4 @@ $(Bu_OBJ_DIR)/%.c.obj: $(SRC_DIR)/%.c
 	$(Bu_C_BUILD)
 
 message: 
-	echo "Building 'arch/i386/boot/'"
-
-# Include the dependencies.
-
--include $(patsubst $(Bu_OBJ_DIR)/%.c.obj, $(Bu_DEPS_DIR)/%.c.dep, $(OBJ_FILES_C))
+	echo -e "\nBuilding 'arch/i386/boot/gdt/'"

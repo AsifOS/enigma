@@ -12,7 +12,7 @@ kinfo_t g_kinfo;
    VGA output as no other output mode is available at early boot time. */
 
 static void __mb_error(const char *str) {
-    u16_t *vid_mem = (u16_t*) 0xB8000;
+    u16_t *vid_mem = (u16_t *) 0xB8000;
 
     while(*str) 
         *vid_mem++ = (u16_t) (0x4f << 8) | *str++;
@@ -22,20 +22,24 @@ static void __mb_error(const char *str) {
 
 static void mbi_extract(kinfo_t *info, mbi_tag_t *tag) {
     /* We are not interested in the header. */
-    for(tag = (mbi_tag_t*) (tag + 8);
-        tag -> type != MULTIBOOT_TAG_TYPE_END;
+    for(; tag -> type != MULTIBOOT_TAG_TYPE_END;
         /* The info. structure is 8-byte aligned, but not the given size. */
-        tag += (tag -> size + 0x07) & ~0x07) 
+        tag = (mbi_tag_t *) ((u8_t *) tag + ((tag -> size + 0x07) & ~0x07)))
     {
         switch(tag -> type) {
+            case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME: {
+                mbi_tag_string_t *name = (mbi_tag_string_t *) tag;
+
+                (void) kstrcpy(info -> bl_name, name -> string);
+            } break;
+
             case MULTIBOOT_TAG_TYPE_MMAP: {
-                mbi_tag_mmap_t *mmap = (mbi_tag_mmap_t*) tag;
+                mbi_tag_mmap_t *mmap = (mbi_tag_mmap_t *) tag;
 
                 for(mbi_mmap_entry_t *entry = mmap -> entries; 
-                    (data_t) entry < (data_t) (tag + tag -> size);
-                    entry += mmap -> entry_size) 
+                    (u8_t *) entry < (u8_t *) tag + tag -> size;
+                    entry = (mbi_mmap_entry_t *) ((u8_t *) entry + mmap -> entry_size)) 
                 {
-                   __mb_error("Yeoo");
                     kmmap_t kmmap;
 
                     /* We are in 32-bit mode, where total addressing space 
@@ -58,6 +62,16 @@ static void mbi_extract(kinfo_t *info, mbi_tag_t *tag) {
                     if(info -> mmap_size < ENIGMA_MAX_MMAP) 
                         info -> mmap[info -> mmap_size++] = kmmap;
                 }
+            } break;
+
+            case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR: {
+                mbi_tag_load_base_addr_t *addr = 
+                    (mbi_tag_load_base_addr_t *) tag;
+                
+                /* Now we have the base address where the kernel image was 
+                   loaded. */
+
+                info -> load_base_addr = (data_t) addr -> load_base_addr;
             } break;
         }
     }
@@ -85,15 +99,17 @@ kinfo_t *mb_main(u32_t magic, u32_t addr) {
         goto out;
     }
 
+    g_kinfo.load_base_addr = (data_t) 100;
+
     /* Zero out the structure. */
 
-    kmemsetw(&g_kinfo, 0, sizeof(g_kinfo));
+    (void) kmemsetz(&g_kinfo, sizeof(g_kinfo));
 
     res = &g_kinfo;
 
-    /* Extract the boot informations. */
+    /* Extract the boot informations. We are not interested in the header.*/
 
-    mbi_extract(res, (mbi_tag_t*) addr);
+    mbi_extract(res, (mbi_tag_t *) (addr + 8));
 
 out: 
     return res;

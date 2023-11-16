@@ -4,11 +4,20 @@ default_target: rock_and_roll
 .SILENT: 
 
 rock_and_roll: message
+	# Architecture specific code.
+
 	$(MAKE) -sf $(Fi_CURRENT_DIR)/arch/Makefile.2 \
 	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/arch
 
+	# Standard utilities used thorughout the kernel.
+
 	$(MAKE) -sf $(Fi_CURRENT_DIR)/stdk/Makefile.2 \
 	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/stdk
+
+	# The kernel.
+
+	$(MAKE) -sf $(Fi_CURRENT_DIR)/kernel/Makefile.2 \
+	Fi_CURRENT_DIR=$(Fi_CURRENT_DIR)/kernel
 
 message: 
 	echo -e "Building ENIGMA ($(Fi_VERSION))\n"
