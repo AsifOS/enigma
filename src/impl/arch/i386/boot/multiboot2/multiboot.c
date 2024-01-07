@@ -99,8 +99,6 @@ kinfo_t *mb_main(u32_t magic, u32_t addr) {
         goto out;
     }
 
-    g_kinfo.load_base_addr = (data_t) 100;
-
     /* Zero out the structure. */
 
     (void) kmemsetz(&g_kinfo, sizeof(g_kinfo));

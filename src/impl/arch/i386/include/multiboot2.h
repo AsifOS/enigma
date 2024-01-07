@@ -1,5 +1,5 @@
-#ifndef ENIGMA_MULTIBOOT2_H
-#define ENIGMA_MULTIBOOT2_H
+#ifndef _ENIGMA_MULTIBOOT2_H
+#define _ENIGMA_MULTIBOOT2_H
 
 /*  How many bytes from the start of the file the header is searched. */
 
@@ -78,7 +78,7 @@
 
 /* The Multiboot2 header structure. */
 
-typedef struct __struct_mb_header_t {
+typedef struct mb_header {
     /* Multiboot2 magic. Can be kernel or bootloader magic depending on 
        the use case. */
     
@@ -102,18 +102,18 @@ typedef struct __struct_mb_header_t {
 
 /* Default header tag structure. */
 
-typedef struct __struct_mb_header_tag_t {
+typedef struct mb_header_tag {
     u16_t type;
     u16_t field;
     u32_t size;
 } mb_header_tag_t;
 
-typedef struct __struct_mb_header_tag_info_req_t {
+typedef struct mb_header_tag_info_req {
     mb_header_tag_t tag;
     u32_t requests[0];
 } mb_header_tag_info_req_t;
 
-typedef struct __struct_mb_header_tag_address_t {
+typedef struct mb_header_tag_address {
     mb_header_tag_t tag;
     u32_t header_addr;
     u32_t load_addr;
@@ -121,28 +121,28 @@ typedef struct __struct_mb_header_tag_address_t {
     u32_t bss_end_addr;
 } mb_header_tag_address_t;
 
-typedef struct __struct_mb_header_tag_entry_address_t {
+typedef struct mb_header_tag_entry_address {
     mb_header_tag_t tag;
     u32_t entry_addr;
 } mb_header_tag_entry_address_t;
 
-typedef struct __struct_mb_header_tag_con_flags_t {
+typedef struct mb_header_tag_con_flags {
     mb_header_tag_t tag;
     u32_t con_flags;
 } mb_header_tag_con_flags_t;
 
-typedef struct __struct_mb_header_tag_fb_t {
+typedef struct mb_header_tag_fb {
     mb_header_tag_t tag;
     u32_t width;
     u32_t height;
     u32_t depth;
 } mb_header_tag_fb_t;
 
-typedef struct __struct_mb_header_tag_mod_align_t {
+typedef struct mb_header_tag_mod_align {
     mb_header_tag_t tag;
 } mb_header_tag_mod_align_t;
 
-typedef struct __struct_mb_header_tag_reloc_t {
+typedef struct mb_header_tag_reloc {
     mb_header_tag_t tag;
     u32_t min_addr;
     u32_t max_addr;
@@ -152,30 +152,30 @@ typedef struct __struct_mb_header_tag_reloc_t {
 
 /* Multiboot2 information structure. */
 
-typedef struct __struct_mbi_tag_t {
+typedef struct mbi_tag {
     u32_t type;
     u32_t size;
 } mbi_tag_t;
 
-typedef struct __struct_mbi_tag_string_t {
+typedef struct mbi_tag_string {
     mbi_tag_t tag;
     u8_t string[0];
 } mbi_tag_string_t;
 
-typedef struct __struct_mb_tag_mod_t {
+typedef struct mb_tag_mod {
     mbi_tag_t tag;
     u32_t mod_start;
     u32_t mod_end;
     u8_t  cmdline[0];
 } mb_tag_mod_t;
 
-typedef struct __struct_mbi_tag_basic_meminfo_t {
+typedef struct mbi_tag_basic_meminfo {
     mbi_tag_t tag;
     u32_t mem_lower;
     u32_t mem_upper;
 } mbi_tag_basic_meminfo_t;
 
-typedef struct __struct_mbi_tag_bootdev_t {
+typedef struct mbi_tag_bootdev {
     mbi_tag_t tag;
     u32_t biosdev;
     u32_t slice;
@@ -192,29 +192,29 @@ typedef struct __struct_mbi_tag_bootdev_t {
 
 /* Memory map entry structure. */
 
-typedef struct __struct_mbi_mmap_entry_t {
+typedef struct mbi_mmap_entry {
     u64_t addr;
     u64_t len;
     u32_t type;
     u32_t reserved;
 } mbi_mmap_entry_t;
 
-typedef struct __struct_mbi_tag_mmap_t {
+typedef struct mbi_tag_mmap {
     mbi_tag_t tag;
     u32_t entry_size;
     u32_t entry_version;
     mbi_mmap_entry_t entries[0];  
 } mbi_tag_mmap_t;
 
-typedef struct __struct_mbi_vbe_info_block_t {
+typedef struct mbi_vbe_info_block {
     u8_t external_specification[512];
 } mbi_vbe_info_block_t;
 
-typedef struct __struct_mbi_vbe_mode_info_block_t {
+typedef struct mbi_vbe_mode_info_block {
     u8_t external_specification[256];
 } mbi_vbe_mode_info_block_t;
 
-typedef struct __struct_mbi_tag_vbe_t {
+typedef struct mbi_tag_vbe {
     mbi_tag_t tag;
 
     u16_t vbe_mode;
@@ -232,7 +232,7 @@ typedef struct __struct_mbi_tag_vbe_t {
 #define MULTIBOOT_FRAMEBUFFER_TYPE_RGB          1
 #define MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT     2
 
-typedef struct __struct_mbi_tag_fb_comm_t {
+typedef struct mbi_tag_fb_comm {
     mbi_tag_t tag;
 
     u64_t framebuffer_addr;
@@ -244,14 +244,14 @@ typedef struct __struct_mbi_tag_fb_comm_t {
     u16_t reserved;
 } mbi_tag_fb_comm_t;
 
-typedef struct __struct_mb_color_t {
+typedef struct mb_color {
     u8_t red;
     u8_t green;
     u8_t blue;
 } mb_color_t;
 
-typedef struct __struct_mbi_tag_fb_t {
-  mbi_tag_fb_comm_t common;
+typedef struct mbi_tag_fb {
+    mbi_tag_fb_comm_t common;
 
     union {
         struct {
@@ -270,7 +270,7 @@ typedef struct __struct_mbi_tag_fb_t {
     };
 } mbi_tag_fb_t;
 
-typedef struct __struct_mbi_tag_elf_sect_t {
+typedef struct mbi_tag_elf_sect {
     mbi_tag_t tag;
     u32_t num;
     u32_t entsize;
@@ -278,7 +278,7 @@ typedef struct __struct_mbi_tag_elf_sect_t {
     u8_t sections[0];
 } mbi_tag_elf_sect_t;
 
-typedef struct __struct_mbi_tag_apm_t {
+typedef struct mbi_tag_apm {
     mbi_tag_t tag;
     u16_t version;
     u16_t cseg;
@@ -291,17 +291,17 @@ typedef struct __struct_mbi_tag_apm_t {
     u16_t dseg_len;
 } mbi_tag_apm_t;
 
-typedef struct __struct_mbi_tag_efi32_t {
+typedef struct mbi_tag_efi32 {
     mbi_tag_t tag;
     u32_t pointer;
 } mbi_tag_efi32_t;
 
-typedef struct __struct_mbi_tag_efi64_t {
+typedef struct mbi_tag_efi64 {
     mbi_tag_t tag;
     u64_t pointer;
 } mbi_tag_efi64_t;
 
-typedef struct __struct_mbi_tag_smbios_t {
+typedef struct mbi_tag_smbios {
     mbi_tag_t tag;
     u8_t major;
     u8_t minor;
@@ -309,41 +309,41 @@ typedef struct __struct_mbi_tag_smbios_t {
     u8_t tables[0];
 } mbi_tag_smbios_t;
 
-typedef struct __struct_mbi_tag_old_acpi_t {
+typedef struct mbi_tag_old_acpi {
     mbi_tag_t tag;
     u8_t rsdp[0];
 } mbi_tag_old_acpi_t;
 
-typedef struct __struct_mbi_tag_new_acpi_t {
+typedef struct mbi_tag_new_acpi {
     mbi_tag_t tag;
     u8_t rsdp[0];
 } mbi_tag_new_acpi_t;
 
-typedef struct __struct_mbi_tag_network_t {
+typedef struct mbi_tag_network {
     mbi_tag_t tag;
     u8_t dhcpack[0];
 } mbi_tag_network_t;
 
-typedef struct __struct_mbi_tag_efi_mmap_t {
+typedef struct mbi_tag_efi_mmap {
     mbi_tag_t tag;
     u32_t descr_size;
     u32_t descr_vers;
     u8_t efi_mmap[0];
 } mbi_tag_efi_mmap_t;
 
-typedef struct __struct_mbi_tag_efi32_ih_t {
+typedef struct _mbi_tag_efi32_ih {
     mbi_tag_t tag;
     u32_t pointer;
 } mbi_tag_efi32_ih_t;
 
-typedef struct __struct_mbi_tag_efi64_ih_t {
+typedef struct mbi_tag_efi64_ih {
     mbi_tag_t tag;
     u64_t pointer;
 } mbi_tag_efi64_ih_t;
 
-typedef struct __struct_mbi_tag_load_base_addr_t {
+typedef struct mbi_tag_load_base_addr {
     mbi_tag_t tag;
     u32_t load_base_addr;
 } mbi_tag_load_base_addr_t;
 
-#endif    /* ENIGMA_MULTIBOOT2_H */
+#endif    /* _ENIGMA_MULTIBOOT2_H */

@@ -8,7 +8,7 @@
 /* The information structure initially passed when the main kernel code
    is invoked. */
 
-typedef struct kinfo_t {
+typedef struct kinfo {
     /* Memory mapping of the RAM. */
 
     kmmap_t mmap[ENIGMA_MAX_MMAP];

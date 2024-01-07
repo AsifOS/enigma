@@ -12,7 +12,7 @@
 #define ENIGMA_MEMORY_REGION_NVS          5
 #define ENIGMA_MEMORY_REGION_INVALID      0
 
-typedef struct __struct_kmmap_t {
+typedef struct kmmap {
     u32_t type;
 #ifdef __enigma_i386
     u32_t addr;

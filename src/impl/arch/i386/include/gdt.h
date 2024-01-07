@@ -7,7 +7,7 @@
 /* Each entry in the GDT. */
 /* The GDT entry is one of the messiest shit. */
 
-typedef struct __struct_gdt_entry_t {
+typedef struct gdt_entry {
     u16_t limit_low;            // Limit (bits 0-15)
     u16_t base_low;             // Base (bits 0-15)
     u8_t  base_high_lo;         // Base (bits 16-23)
@@ -17,7 +17,7 @@ typedef struct __struct_gdt_entry_t {
 
 } __attribute__((packed)) gdt_entry_t;
 
-typedef struct __struct_gdt_descriptor_t {
+typedef struct gdt_descriptor {
     u16_t  size;                // Size of the GDT
     data_t ptr;                 // Location of the table
 } __attribute__((packed)) gdt_descriptor_t;
@@ -30,8 +30,8 @@ typedef enum __enum_gdt_access_e {
     GDT_ACCESS_DATA_DIRECTION_NORMAL = 0x00,
     GDT_ACCESS_DATA_DIRECTION_DOWN   = 0x04,
 
-    GDT_ACCESS_CODE_SEGMENT          = 0x18,
-    GDT_ACCESS_DATA_SEGMENT          = 0x10,
+    GDT_ACCESS_CODE_SELECTOR         = 0x18,
+    GDT_ACCESS_DATA_SELECTOR         = 0x10,
 
     GDT_ACCESS_PRIVILEGE_RING0       = 0x00,
     GDT_ACCESS_PRIVILEGE_RING1       = 0x20,
@@ -65,13 +65,13 @@ typedef enum __enum_gdt_flags_e {
     GDT_BASE_HIGH_HI(base)                                  \
 }
 
-/* Selector offset where our code segment will reside in the GDT. */
+/* Selector offset where our code descriptor will reside in GDT. */
 
-#define GDT_CODE_SEGMENT        0x08
-#define GDT_DATA_SEGMENT        0x10
+#define GDT_CODE_SELECTOR        0x08
+#define GDT_DATA_SELECTOR        0x10
 
 void gdt_init();
 
-extern void gdt_load(data_t desc, u16_t code_seg, u16_t data_seg);
+ASMCALL void gdt_load(data_t desc, u16_t code_seg, u16_t data_seg);
 
 #endif     // _ENIGMA_GDT_H
